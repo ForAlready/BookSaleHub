@@ -1,0 +1,61 @@
+# BookSaleHub应用程序主配置文件
+spring:
+  profiles:
+    active: dev # 默认使用开发环境配置
+  application:
+    name: BookSaleHub
+  # 数据库连接配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/booksalehub?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  # JPA配置
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  # 安全配置
+  security:
+    user:
+      name: admin
+      password: admin
+
+# 服务器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.booksalehub.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# 日志配置
+logging:
+  level:
+    com.booksalehub: debug
+    org.springframework: info
+  file:
+    name: logs/booksalehub.log
+
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+jwt:
+  secret: booksalehub-secret-key
+  expiration: 86400000  # 24小时
